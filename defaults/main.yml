@@ -1,0 +1,44 @@
+---
+
+ampache_image: "victorrds/ampache-php-fpm:latest"
+ampache_nginx_image: "nginx:1.13.6-alpine"
+
+ampache_namespace: "default"
+ampache_deployment: "ampache-deployment"
+ampache_app: "ampache"
+ampache_configmap: "ampache"
+ampache_service: "ampache"
+
+ampache_node_selector: {}
+ampache_replicas: 1
+ampache_revision_history: 1
+
+ampache_resources:
+  limits:
+    memory: "1Gi"
+  requests:
+    memory: "256Mi"
+
+ampache_nginx_resources:
+  limits:
+    memory: "256Mi"
+  requests:
+    memory: "128Mi"
+
+ampache_quick_cron_period: "0 */6 * * *"
+ampache_complete_cron_period: "0 5 */7 * *"
+
+ampache_music_volumes:
+  data-volume:
+    definition:
+
+ampache_setup_ingress: false
+ampache_ingress:
+  name: "ampache-ingress"
+  host: "ampache.example.com"
+  annotations:
+  tls:
+
+ampache_config:
+
+# vim: set ts=2 sw=2:

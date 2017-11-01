@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ ampache_ingress.name }}
+{% if ampache_ingress.annotations %}
+  annotations:
+    {{ ampache_ingress.annotations | to_nice_yaml | indent }}
+{% endif %}
+spec:
+{% if ampache_ingress.tls %}
+  tls:
+    {{ ampache_ingress.tls | to_nice_yaml | indent }}
+{% endif %}
+  rules:
+  - host: {{ ampache_ingress.host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ ampache_service }}
+          servicePort: 80

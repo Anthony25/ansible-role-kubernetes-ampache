@@ -1,0 +1,9 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ ampache_service }}
+spec:
+  selector:
+    app: {{ ampache_app }}
+  ports:
+    - port: 80
