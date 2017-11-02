@@ -1,26 +1,26 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ ampache_deployment }}
+  name: {{ kubernetes_ampache_deployment }}
   labels:
-    app: {{ ampache_app }}
+    app: {{ kubernetes_ampache_app }}
 spec:
-  replicas: {{ ampache_replicas }}
-  revisionHistoryLimit: {{ ampache_revision_history }}
+  replicas: {{ kubernetes_ampache_replicas }}
+  revisionHistoryLimit: {{ kubernetes_ampache_revision_history }}
   selector:
     matchLabels:
-      app: {{ ampache_app }}
+      app: {{ kubernetes_ampache_app }}
   template:
     metadata:
       labels:
-        app: {{ ampache_app }}
+        app: {{ kubernetes_ampache_app }}
     spec:
       containers:
-      - image: {{ ampache_image }}
+      - image: {{ kubernetes_ampache_image }}
         imagePullPolicy: Always
         name: ampache
         resources:
-          {{ ampache_resources | to_yaml | indent(10) }}
+          {{ kubernetes_ampache_resources | to_yaml | indent(10) }}
         volumeMounts:
         - mountPath: /var/www/ampache
           name: ampache-basedir
@@ -30,32 +30,32 @@ spec:
         - mountPath: /usr/local/etc/php/php.ini
           name: ampache-config
           subPath: php.ini
-{% for k, v in ampache_music_volumes.items() %}
+{% for k, v in kubernetes_ampache_music_volumes.items() %}
         - mountPath: {{ v.mountpath }}
           name: ampache-{{ k }}
           {% if v.subPath is defined %}subPath: {{ v.subPath }}{% endif %}
 
 {% endfor %}
-      - image: {{ ampache_nginx_image }}
+      - image: {{ kubernetes_ampache_nginx_image }}
         imagePullPolicy: Always
         name: nginx
         resources:
-          {{ ampache_nginx_resources | to_yaml | indent(10) }}
+          {{ kubernetes_ampache_nginx_resources | to_yaml | indent(10) }}
         volumeMounts:
         - mountPath: /var/www/ampache
           name: ampache-basedir
         - mountPath: /etc/nginx/nginx.conf
           name: ampache-config
           subPath: nginx.conf
-{% if ampache_node_selector|default({}) %}
-      nodeSelector: {{ ampache_node_selector | to_yaml }}
+{% if kubernetes_ampache_node_selector|default({}) %}
+      nodeSelector: {{ kubernetes_ampache_node_selector | to_yaml }}
 {% endif %}
       volumes:
       - name: ampache-basedir
         emptyDir: {}
       - name: ampache-config
         configMap:
-          name: {{ ampache_configmap }}
+          name: {{ kubernetes_ampache_configmap }}
           items:
             - key: ampache.cfg.php
               path: ampache.cfg.php
@@ -63,7 +63,7 @@ spec:
               path: nginx.conf
             - key: php.ini
               path: php.ini
-{% for k, v in ampache_music_volumes.items() %}
+{% for k, v in kubernetes_ampache_music_volumes.items() %}
       - {name: ampache-{{ k }}, {{ v.definition | to_yaml }}}
 {% endfor %}
       restartPolicy: Always

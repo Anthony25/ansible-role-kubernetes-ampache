@@ -18,6 +18,6 @@
   command: kubectl apply -f -
   args:
     stdin: "{{ lookup('template', 'ingress.yml.j2') }}"
-  when: ampache_setup_ingress
+  when: kubernetes_ampache_setup_ingress
 
 # vim: set ts=2 sw=2:

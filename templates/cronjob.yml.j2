@@ -5,9 +5,9 @@ kind: CronJob
 metadata:
   name: ampache-quick-cron
   labels:
-    app: {{ ampache_app }}
+    app: {{ kubernetes_ampache_app }}
 spec:
-  schedule: "{{ ampache_quick_cron_period }}"
+  schedule: "{{ kubernetes_ampache_quick_cron_period }}"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
@@ -15,7 +15,7 @@ spec:
       template:
         spec:
           containers:
-            - image: {{ ampache_image }}
+            - image: {{ kubernetes_ampache_image }}
               name: update-trigger
               command: ["/bin/sh"]
               args:
@@ -24,7 +24,7 @@ spec:
                   rsync -rlDog --chown www-data:root --exclude /config/ --exclude /themes/ /usr/src/ampache/ /var/www/ampache/;
                   su www-data -s /usr/local/bin/php -- /var/www/ampache/bin/catalog_update.inc -a -g -c
               resources:
-                {{ ampache_resources | to_yaml | indent(16) }}
+                {{ kubernetes_ampache_resources | to_yaml | indent(16) }}
               volumeMounts:
               - mountPath: /var/www/ampache/config/ampache.cfg.php
                 name: ampache-config
@@ -32,7 +32,7 @@ spec:
               - mountPath: /usr/local/etc/php/php.ini
                 name: ampache-config
                 subPath: php.ini
-{% for k, v in ampache_music_volumes.items() %}
+{% for k, v in kubernetes_ampache_music_volumes.items() %}
               - mountPath: {{ v.mountpath }}
                 name: ampache-{{ k }}
                 {% if v.subPath is defined %}subPath: {{ v.subPath }}{% endif %}
@@ -42,13 +42,13 @@ spec:
           volumes:
           - name: ampache-config
             configMap:
-              name: {{ ampache_configmap }}
+              name: {{ kubernetes_ampache_configmap }}
               items:
                 - key: ampache.cfg.php
                   path: ampache.cfg.php
                 - key: php.ini
                   path: php.ini
-{% for k, v in ampache_music_volumes.items() %}
+{% for k, v in kubernetes_ampache_music_volumes.items() %}
           - {name: ampache-{{ k }}, {{ v.definition | to_yaml }}}
 {% endfor %}
 ---
@@ -58,9 +58,9 @@ kind: CronJob
 metadata:
   name: ampache-complete-cron
   labels:
-    app: {{ ampache_app }}
+    app: {{ kubernetes_ampache_app }}
 spec:
-  schedule: "{{ ampache_complete_cron_period }}"
+  schedule: "{{ kubernetes_ampache_complete_cron_period }}"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
@@ -68,7 +68,7 @@ spec:
       template:
         spec:
           containers:
-            - image: {{ ampache_image }}
+            - image: {{ kubernetes_ampache_image }}
               name: update-trigger
               command: ["/bin/sh"]
               args:
@@ -77,7 +77,7 @@ spec:
                   rsync -rlDog --chown www-data:root --exclude /config/ --exclude /themes/ /usr/src/ampache/ /var/www/ampache/;
                   su www-data -s /usr/local/bin/php -- /var/www/ampache/bin/catalog_update.inc -a -g -c -v
               resources:
-                {{ ampache_resources | to_yaml | indent(16) }}
+                {{ kubernetes_ampache_resources | to_yaml | indent(16) }}
               volumeMounts:
               - mountPath: /var/www/ampache/config/ampache.cfg.php
                 name: ampache-config
@@ -85,7 +85,7 @@ spec:
               - mountPath: /usr/local/etc/php/php.ini
                 name: ampache-config
                 subPath: php.ini
-{% for k, v in ampache_music_volumes.items() %}
+{% for k, v in kubernetes_ampache_music_volumes.items() %}
               - mountPath: {{ v.mountpath }}
                 name: ampache-{{ k }}
                 {% if v.subPath is defined %}subPath: {{ v.subPath }}{% endif %}
@@ -95,13 +95,13 @@ spec:
           volumes:
           - name: ampache-config
             configMap:
-              name: {{ ampache_configmap }}
+              name: {{ kubernetes_ampache_configmap }}
               items:
                 - key: ampache.cfg.php
                   path: ampache.cfg.php
                 - key: php.ini
                   path: php.ini
-{% for k, v in ampache_music_volumes.items() %}
+{% for k, v in kubernetes_ampache_music_volumes.items() %}
           - {name: ampache-{{ k }}, {{ v.definition | to_yaml }}}
 {% endfor %}
 ---

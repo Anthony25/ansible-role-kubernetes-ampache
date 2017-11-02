@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ ampache_configmap }}
-  namespace: {{ ampache_namespace }}
+  name: {{ kubernetes_ampache_configmap }}
+  namespace: {{ kubernetes_ampache_namespace }}
 data:
   ampache.cfg.php: |
-    {{ ampache_config|indent }}
+    {{ kubernetes_ampache_config|indent }}
   php.ini: |
     memory_limit = 500M
   nginx.conf: |

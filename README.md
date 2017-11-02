@@ -7,41 +7,41 @@ Role Variables
 --------------
 
 ```yaml
-ampache_namespace: "default"
+kubernetes_ampache_namespace: "default"
 # App name (used as selector)
-ampache_app: "ampache"
+kubernetes_ampache_app: "ampache"
 # Deployment name
-ampache_deployment: "ampache-deployment"
+kubernetes_ampache_deployment: "ampache-deployment"
 # Configmap name
-ampache_configmap: "ampache"
+kubernetes_ampache_configmap: "ampache"
 # Service name
-ampache_service: "ampache"
+kubernetes_ampache_service: "ampache"
 
 # Number of replicas
-ampache_replicas: 1
-ampache_revision_history: 1
+kubernetes_ampache_replicas: 1
+kubernetes_ampache_revision_history: 1
 
 # Node selector
-ampache_node_selector: {}
+kubernetes_ampache_node_selector: {}
 
-ampache_resources:
+kubernetes_ampache_resources:
   limits:
     memory: "1Gi"
   requests:
     memory: "256Mi"
 
-ampache_nginx_resources:
+kubernetes_ampache_nginx_resources:
   limits:
     memory: "256Mi"
   requests:
     memory: "128Mi"
 
-ampache_quick_cron_period: "0 */6 * * *"
-ampache_complete_cron_period: "0 5 */7 * *"
+kubernetes_ampache_quick_cron_period: "0 */6 * * *"
+kubernetes_ampache_complete_cron_period: "0 5 */7 * *"
 
 
 # Music volumes.
-ampache_music_volumes:
+kubernetes_ampache_music_volumes:
   data-volume:
     # Indicates and uncomment the volume subPath if wanted
     # subPath:
@@ -54,7 +54,7 @@ ampache_music_volumes:
 
 
 # Volumes for music.
-ampache_config_volume:
+kubernetes_ampache_config_volume:
   # Indicates and uncomment the volume subPath if wanted
   # subPath:
 
@@ -63,8 +63,8 @@ ampache_config_volume:
 
 
 # Setup ingress for ampache
-ampache_setup_ingress: false
-ampache_ingress:
+kubernetes_ampache_setup_ingress: false
+kubernetes_ampache_ingress:
   name: "ampache-ingress"
   host: "ampache.example.com"
   annotations:
@@ -73,7 +73,7 @@ ampache_ingress:
 # ampache.cfg.php content. It is also possible to configure ampache through the
 # webui, and use `kubectl exec` to cat
 # `/var/www/ampache/config/ampache.cfg.php` to save it here.
-ampache_config:
+kubernetes_ampache_config:
 ```
 
 Dependencies
@@ -90,7 +90,7 @@ Example Playbook
 - hosts: kube-master
   run_once: true
   vars:
-    ampache_music_volumes:
+    kubernetes_ampache_music_volumes:
       main-music-volume:
         definition:
           glusterfs:
@@ -100,8 +100,8 @@ Example Playbook
         subPath: "Music"
         mountpath: "/mnt/music"
 
-    ampache_setup_ingress: true
-    ampache_ingress:
+    kubernetes_ampache_setup_ingress: true
+    kubernetes_ampache_ingress:
       name: "ampache-ingress"
       host: "ampache.example.com"
       annotations:
@@ -111,12 +111,12 @@ Example Playbook
           hosts:
             - "ampache.example.com"
   roles:
-    - role: ampache
+    - role: Anthony25.kubernetes-ampache
 ```
 
 Use `run_once` to run the role on only one available master in the cluster.  Do
-not forget to fill the `ampache_config` variable with your `ampache.cfg.php`
-content to save your configuration if the pod is destroyed.
+not forget to fill the `kubernetes_ampache_config` variable with your
+`ampache.cfg.php` content to save your configuration if the pod is destroyed.
 
 License
 -------
