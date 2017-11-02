@@ -36,7 +36,11 @@ kubernetes_ampache_nginx_resources:
   requests:
     memory: "128Mi"
 
+# Quick cron scans for new albums and gathers arts
 kubernetes_ampache_quick_cron_period: "0 */6 * * *"
+
+# Complete cron scans for new albums, cleans removed ones, gathers arts and
+# verify the catalog
 kubernetes_ampache_complete_cron_period: "0 5 */7 * *"
 
 
