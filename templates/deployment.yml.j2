@@ -48,7 +48,8 @@ spec:
           name: ampache-config
           subPath: nginx.conf
 {% if kubernetes_ampache_node_selector|default({}) %}
-      nodeSelector: {{ kubernetes_ampache_node_selector | to_yaml }}
+      nodeSelector:
+        {{ kubernetes_ampache_node_selector | to_yaml | indent(8) }}
 {% endif %}
       volumes:
       - name: ampache-basedir
