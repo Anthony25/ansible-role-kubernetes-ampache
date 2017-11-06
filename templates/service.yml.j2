@@ -2,6 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: {{ kubernetes_ampache_service }}
+  namespace: {{ kubernetes_ampache_namespace }}
 spec:
   selector:
     app: {{ kubernetes_ampache_app }}

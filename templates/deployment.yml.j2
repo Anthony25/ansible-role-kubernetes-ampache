@@ -2,6 +2,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: {{ kubernetes_ampache_deployment }}
+  namespace: {{ kubernetes_ampache_namespace }}
   labels:
     app: {{ kubernetes_ampache_app }}
 {% if kubernetes_ampache_deployment_labels %}

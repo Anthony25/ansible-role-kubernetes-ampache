@@ -4,6 +4,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: ampache-quick-cron
+  namespace: {{ kubernetes_ampache_namespace }}
   labels:
     app: {{ kubernetes_ampache_app }}
 spec:
