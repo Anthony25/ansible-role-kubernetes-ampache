@@ -26,6 +26,8 @@ kubernetes_ampache_node_selector: {}
 
 # Add custom labels in the deployment metadata section
 kubernetes_ampache_deployment_labels: {}
+# Add custom annotations in the deployment metadata section
+kubernetes_ampache_deployment_annotations: {}
 
 kubernetes_ampache_resources:
   limits:
