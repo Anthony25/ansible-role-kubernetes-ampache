@@ -24,6 +24,9 @@ kubernetes_ampache_revision_history: 1
 # Node selector
 kubernetes_ampache_node_selector: {}
 
+# Add custom labels in the deployment metadata section
+kubernetes_ampache_deployment_labels: {}
+
 kubernetes_ampache_resources:
   limits:
     memory: "1Gi"

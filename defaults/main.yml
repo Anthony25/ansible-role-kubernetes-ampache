@@ -12,6 +12,7 @@ kubernetes_ampache_service: "ampache"
 kubernetes_ampache_node_selector: {}
 kubernetes_ampache_replicas: 1
 kubernetes_ampache_revision_history: 1
+kubernetes_ampache_deployment_labels: {}
 
 kubernetes_ampache_resources:
   limits:

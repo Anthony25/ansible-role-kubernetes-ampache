@@ -4,6 +4,9 @@ metadata:
   name: {{ kubernetes_ampache_deployment }}
   labels:
     app: {{ kubernetes_ampache_app }}
+{% if kubernetes_ampache_deployment_labels %}
+    {{ kubernetes_ampache_deployment_labels | to_nice_yaml | indent(4) }}
+{% endif %}
 spec:
   replicas: {{ kubernetes_ampache_replicas }}
   revisionHistoryLimit: {{ kubernetes_ampache_revision_history }}
