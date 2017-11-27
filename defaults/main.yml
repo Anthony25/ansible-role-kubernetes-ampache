@@ -1,7 +1,7 @@
 ---
 
 kubernetes_ampache_image: "victorrds/ampache-php-fpm:latest"
-kubernetes_ampache_nginx_image: "nginx:1.13.6-alpine"
+kubernetes_ampache_nginx_image: "nginx:1.13.7-alpine"
 
 kubernetes_ampache_namespace: "default"
 kubernetes_ampache_deployment: "ampache-deployment"
