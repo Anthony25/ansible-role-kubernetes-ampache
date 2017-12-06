@@ -29,6 +29,20 @@ spec:
         name: ampache
         resources:
           {{ kubernetes_ampache_resources | to_yaml | indent(10) }}
+        ports:
+        - name: php-fpm
+          containerPort: 9000
+        readinessProbe:
+          tcpSocket:
+            port: php-fpm
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 10
         volumeMounts:
         - mountPath: /var/www/ampache
           name: ampache-basedir
@@ -49,6 +63,18 @@ spec:
         name: nginx
         resources:
           {{ kubernetes_ampache_nginx_resources | to_yaml | indent(10) }}
+        ports:
+        - name: http
+          containerPort: 80
+        ports:
+        - name: http
+          containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /nginx-health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
         volumeMounts:
         - mountPath: /var/www/ampache
           name: ampache-basedir
