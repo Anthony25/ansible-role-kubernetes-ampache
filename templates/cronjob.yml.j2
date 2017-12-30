@@ -23,7 +23,8 @@ spec:
                 - "-c"
                 - |
                   rsync -rlDog --chown www-data:root --exclude /config/ --exclude /themes/ /usr/src/ampache/ /var/www/ampache/;
-                  su www-data -s /usr/local/bin/php -- /var/www/ampache/bin/catalog_update.inc -a -g -c
+                  su www-data -s /usr/local/bin/php -- /var/www/ampache/bin/catalog_update.inc -a -g -c;
+                  exit
               resources:
                 {{ kubernetes_ampache_resources | to_yaml | indent(16) }}
               volumeMounts:
@@ -76,7 +77,8 @@ spec:
                 - "-c"
                 - |
                   rsync -rlDog --chown www-data:root --exclude /config/ --exclude /themes/ /usr/src/ampache/ /var/www/ampache/;
-                  su www-data -s /usr/local/bin/php -- /var/www/ampache/bin/catalog_update.inc -a -g -c -v
+                  su www-data -s /usr/local/bin/php -- /var/www/ampache/bin/catalog_update.inc -a -g -c -v;
+                  exit
               resources:
                 {{ kubernetes_ampache_resources | to_yaml | indent(16) }}
               volumeMounts:
