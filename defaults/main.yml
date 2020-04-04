@@ -1,6 +1,6 @@
 ---
 
-kubernetes_ampache_image: "anthony25/ampache-fpm:4.1.0"
+kubernetes_ampache_image: "anthony25/ampache-fpm:4.1.1"
 kubernetes_ampache_nginx_image: "nginx:1.16.1-alpine"
 
 kubernetes_ampache_namespace: "default"
